@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="block">
+    <Position X="6.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAQAAAAAAAAAAAQAAAAAAAAAABAA=</HashCode>
+      <FileName>block.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="blockGroup">
+    <Position X="14.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAIAAAAAAAAAAgAAABEEAAAAQAAAAAAUAAA=</HashCode>
+      <FileName>blockGroup.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="blockGroupStorage">
+    <Position X="17.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>blockGroupStorage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="dynamicObject">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAEAAAAAAAAAAAAAEAAAAAAAAEEAAAAAAAAAAAUABA=</HashCode>
+      <FileName>dynamicObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="dynamicObjectManager">
+    <Position X="19" Y="0.5" Width="3.25" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="dynamicObjectManager::garbageColle">
+        <TypeIdentifier>
+          <NewMemberFileName>dynamicObjectManager.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAYAAAAAAAAUggQ=</HashCode>
+      <FileName>dynamicObjectManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="dynamicObjectRenderer">
+    <Position X="19" Y="4.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>dynamicObjectRenderer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="force">
+    <Position X="17.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAABAAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>force.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="hitBorder">
+    <Position X="17.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAQAAAAAQAAAAAAAAAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>hitBorder.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="life">
+    <Position X="12.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>life.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="spremaEvent">
+    <Position X="17.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>spremaEvent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="mapBlockGroup">
+    <Position X="14.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAIAAAAA=</HashCode>
+      <FileName>mapBlockGroup.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="mapGenerator">
+    <Position X="2.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>mapGenerator.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="mainWorldGenerator">
+    <Position X="2.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEACAAAAA=</HashCode>
+      <FileName>mainWorldGenerator.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="testdemo_grassBlock">
+    <Position X="3" Y="6.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAQAAA=</HashCode>
+      <FileName>testdemo_grassBlock.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="testdemo_ironBlock">
+    <Position X="5.75" Y="6.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>testdemo_ironBlock.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="testdemo_supernovaThrusterBlock">
+    <Position X="8.5" Y="6.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>testdemo_supernovaThrusterBlock.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>
