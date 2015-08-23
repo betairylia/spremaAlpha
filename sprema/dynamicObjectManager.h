@@ -36,6 +36,10 @@ class dynamicObjectManager
 		void update();
 		void render();
 
+		//******TEST FUNCTION******//
+		void testStartDemoAlpha();
+		//******TEST FUNCTION******//
+
 	private:
 		static dynamicObjectManager* m_pInstance;
 

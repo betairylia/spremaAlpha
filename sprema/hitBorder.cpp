@@ -4,6 +4,7 @@
 
 hitBorder::hitBorder()
 {
+	hitFlag = HIT_ALL;
 }
 
 

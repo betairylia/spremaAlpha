@@ -31,6 +31,7 @@
     <ClInclude Include="mainWorldGenerator.h" />
     <ClInclude Include="mapBlockGroup.h" />
     <ClInclude Include="mapGenerator.h" />
+    <ClInclude Include="renderable.h" />
     <ClInclude Include="spremaEvent.h" />
     <ClInclude Include="testdemo_grassBlock.h" />
     <ClInclude Include="testdemo_ironBlock.h" />
@@ -49,6 +50,8 @@
     <ClCompile Include="mainWorldGenerator.cpp" />
     <ClCompile Include="mapBlockGroup.cpp" />
     <ClCompile Include="mapGenerator.cpp" />
+    <ClCompile Include="renderable.cpp" />
+    <ClCompile Include="sprema.cpp" />
     <ClCompile Include="spremaEvent.cpp" />
     <ClCompile Include="testdemo_grassBlock.cpp" />
     <ClCompile Include="testdemo_ironBlock.cpp" />
@@ -113,6 +116,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>G:\DirectXSDK%28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>G:\DirectXSDK%28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -135,6 +140,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d9.lib;d3dx10d.lib;d3dx9d.lib;dxerr.lib;dxguid.lib;winmm.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

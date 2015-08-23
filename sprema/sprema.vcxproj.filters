@@ -69,6 +69,9 @@
     <ClInclude Include="mainWorldGenerator.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="renderable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dynamicObject.cpp">
@@ -117,6 +120,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="mainWorldGenerator.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sprema.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="renderable.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
