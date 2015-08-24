@@ -19,6 +19,12 @@
     <Filter Include="源文件\blocks">
       <UniqueIdentifier>{cdb90bb1-faa4-414d-820a-dc2db3bb9642}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\events">
+      <UniqueIdentifier>{ae42ec76-b4f6-4c4c-9b65-7837177ee9a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\events">
+      <UniqueIdentifier>{f9f42131-090b-4a27-99ac-18945f93ab0a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dynamicObject.h">
@@ -71,6 +77,9 @@
     </ClInclude>
     <ClInclude Include="renderable.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="testdemo_supernovaThrusterBlock_event_addForce.h">
+      <Filter>头文件\events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -127,6 +136,9 @@
     </ClCompile>
     <ClCompile Include="renderable.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="testdemo_supernovaThrusterBlock_event_addForce.cpp">
+      <Filter>源文件\events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

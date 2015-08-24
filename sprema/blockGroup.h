@@ -7,6 +7,7 @@
 #include "hitBorder.h"
 
 #include <map>
+#include <cmath>
 
 class blockGroup :
 	public dynamicObject,
@@ -26,17 +27,19 @@ class blockGroup :
 
 		//blockGroup
 		block* setBlock(int x, int y, int z, block &targetBlock);//用以进行小规模的方块替换。大规模的替换分为两类：其一为受到外界作用产生的大规模替换，这里用受力过程来进行操作。其二为生成世界时的大规模替换（创造），这里需要将其绑定至一个TerrainGenerator上。
-	
+		void blockUpdateCompleted(/*适当的参数*/);//用来处理一个方块更新完后周围一圈方块的更新工作。
+
 		//注册事件相关
 		double addMass(double amount);//返回操作后的质量
-		void addEvent(spremaEvent &event);
+		int addEvent(spremaEvent &targetEvent);
 
 		//注销事件相关
 		double removeMass(double amount);//返回操作后的质量
-		void removeEvent(spremaEvent &event);
+		void removeEvent(int eventID);
 
 	private:
 		std::map<int, blockGroupStorage*> storeMap;
+		std::map<int, spremaEvent&> eventMap;
 
 		double mass;//方块组总质量
 		hitBorder* borderTree;//碰撞体，层级结构：方块组->存储器->方块

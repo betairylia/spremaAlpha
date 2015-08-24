@@ -16,6 +16,13 @@ blockGroup::~blockGroup()
 void blockGroup::update()
 {
 	//todo
+	//更新注册的所有event。
+	for (auto targetEvent = eventMap.begin(); targetEvent != eventMap.end(); targetEvent++)
+	{
+		//***********函数参数应为当前帧与上一帧间的时间差***********//
+		targetEvent->second.update(0.01);
+		//***********函数参数应为当前帧与上一帧间的时间差***********//
+	}
 }
 
 void blockGroup::render()
@@ -26,6 +33,11 @@ void blockGroup::render()
 void blockGroup::attachForces(list<force>& forces)
 {
 	//todo
+}
+
+list<force>* blockGroup::getImpactForces()
+{
+	return nullptr;
 }
 
 void blockGroup::loadFile()
@@ -70,14 +82,14 @@ block* blockGroup::setBlock(int x, int y, int z, block & targetBlock)
 	return tmp;
 }
 
+void blockGroup::blockUpdateCompleted(/*适当的参数*/)
+{
+}
+
 double blockGroup::addMass(double amount)
 {
 	mass += amount;
 	return mass;
-}
-
-void blockGroup::addEvent(spremaEvent & event)
-{
 }
 
 double blockGroup::removeMass(double amount)
@@ -86,6 +98,32 @@ double blockGroup::removeMass(double amount)
 	return mass;
 }
 
-void blockGroup::removeEvent(spremaEvent & event)
+int blockGroup::addEvent(spremaEvent & targetEvent)
 {
+	while (1)
+	{
+		//随机一个键值
+		int key = rand();
+		
+		//如果该键值未被使用，则占据它。
+		if (eventMap.count(key) == 0)
+		{
+			eventMap[key] = targetEvent;
+			return key;
+		}
+		//否则继续循环，直到找到一个可以使用的键值为止。
+	}
+	return 0;
+}
+
+void blockGroup::removeEvent(int eventID)
+{
+	if (eventMap.count(eventID) == 0)//该键值不存在，直接结束函数。
+		return;
+	
+	spremaEvent& eventTmp = eventMap[eventID];
+	eventMap.erase(eventID);
+	delete (&eventTmp);
+
+	return;
 }

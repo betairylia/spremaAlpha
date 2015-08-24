@@ -23,6 +23,21 @@ void dynamicObjectManager::render()
 {
 }
 
+int dynamicObjectManager::addForce(force & srcForce)
+{
+	return 0;
+}
+
+bool dynamicObjectManager::removeForce(int forceKey)
+{
+	return false;
+}
+
+bool dynamicObjectManager::attachForceOnce(force & srcForce)
+{
+	return false;
+}
+
 void dynamicObjectManager::testStartDemoAlpha()
 {
 }

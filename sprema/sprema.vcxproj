@@ -36,6 +36,7 @@
     <ClInclude Include="testdemo_grassBlock.h" />
     <ClInclude Include="testdemo_ironBlock.h" />
     <ClInclude Include="testdemo_supernovaThrusterBlock.h" />
+    <ClInclude Include="testdemo_supernovaThrusterBlock_event_addForce.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="block.cpp" />
@@ -56,6 +57,7 @@
     <ClCompile Include="testdemo_grassBlock.cpp" />
     <ClCompile Include="testdemo_ironBlock.cpp" />
     <ClCompile Include="testdemo_supernovaThrusterBlock.cpp" />
+    <ClCompile Include="testdemo_supernovaThrusterBlock_event_addForce.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

@@ -15,7 +15,7 @@ class block :
 		virtual void attachForces(force &mForce) {};
 		virtual list<force>* getImpactForces() {};
 
-		virtual void update() {};
+		virtual void update() {};//方块被命令更新自身。它或许需要从blockGroup中提取一些信息。
 
 		virtual void loadFile() {};//block类一般没有存储/读取函数。
 		virtual void saveFile() {};

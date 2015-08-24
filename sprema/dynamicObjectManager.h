@@ -25,6 +25,8 @@ dynamicObjectManager作为整个游戏的核心框架，应在此管理主要的游戏功能，和组成整个
 
 */
 
+#include "dynamicObject.h"
+
 #define objManager dynamicObjectManager::getInstance()
 
 class dynamicObjectManager
@@ -35,6 +37,10 @@ class dynamicObjectManager
 		void init();
 		void update();
 		void render();
+
+		int addForce(force &srcForce);//添加一个持续性作用（如类似扇面火焰的技能），返回值为forceID。这个ID唯一对应了一个force，从而便于在移除时快速定位。
+		bool removeForce(int forceKey);//移除一个持续性作用，返回值为是否找到该作用（是否成功移除）
+		bool attachForceOnce(force &srcForce);//瞬间施加一个作用，只施加一次，完毕后立即移除（根本不会被加入map），适用于类似瞬间推动一类的场合。返回值为是否产生了作用。
 
 		//******TEST FUNCTION******//
 		void testStartDemoAlpha();
