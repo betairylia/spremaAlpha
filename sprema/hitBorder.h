@@ -10,6 +10,15 @@ enum hitFlags
 	HIT_ALL = 0xFFFFFFFF
 };
 
+enum hitTypes
+{
+	HIT_POINT = 0x1,
+	HIT_BOX = 0x2,
+	HIT_LINE = 0x4,
+	HIT_SPHERE = 0x8,
+	HIT_TREE = 0x10
+};
+
 class hitBorder
 {
 	public:
@@ -17,10 +26,11 @@ class hitBorder
 		virtual ~hitBorder();
 
 		virtual bool onHit(hitBorder *target) = 0;
-		virtual void switchSpace(/*todo*/) = 0;
+		//virtual void switchSpace(/*todo*/) = 0;
 		//virtual hitAABB getAABB() = 0;
 
-	private:
 		hitFlags hitFlag;
+		hitTypes hitType;
+	protected:
 };
 

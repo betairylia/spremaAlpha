@@ -27,6 +27,11 @@
     <ClInclude Include="dynamicObjectRenderer.h" />
     <ClInclude Include="force.h" />
     <ClInclude Include="hitBorder.h" />
+    <ClInclude Include="hitBox.h" />
+    <ClInclude Include="hitLine.h" />
+    <ClInclude Include="hitPoint.h" />
+    <ClInclude Include="hitSphere.h" />
+    <ClInclude Include="hitTree.h" />
     <ClInclude Include="life.h" />
     <ClInclude Include="mainWorldGenerator.h" />
     <ClInclude Include="mapBlockGroup.h" />
@@ -37,6 +42,7 @@
     <ClInclude Include="testdemo_ironBlock.h" />
     <ClInclude Include="testdemo_supernovaThrusterBlock.h" />
     <ClInclude Include="testdemo_supernovaThrusterBlock_event_addForce.h" />
+    <ClInclude Include="spremaMath.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="block.cpp" />
@@ -47,6 +53,11 @@
     <ClCompile Include="dynamicObjectRenderer.cpp" />
     <ClCompile Include="force.cpp" />
     <ClCompile Include="hitBorder.cpp" />
+    <ClCompile Include="hitBox.cpp" />
+    <ClCompile Include="hitLine.cpp" />
+    <ClCompile Include="hitPoint.cpp" />
+    <ClCompile Include="hitSphere.cpp" />
+    <ClCompile Include="hitTree.cpp" />
     <ClCompile Include="life.cpp" />
     <ClCompile Include="mainWorldGenerator.cpp" />
     <ClCompile Include="mapBlockGroup.cpp" />

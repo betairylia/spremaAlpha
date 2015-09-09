@@ -25,6 +25,12 @@
     <Filter Include="源文件\events">
       <UniqueIdentifier>{f9f42131-090b-4a27-99ac-18945f93ab0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\hitBorders">
+      <UniqueIdentifier>{b3a4a531-fe71-458b-b59d-b192c67d6001}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\hitBorders">
+      <UniqueIdentifier>{6f1aa6dc-f226-42e9-92d9-8e4cc1e3f479}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dynamicObject.h">
@@ -80,6 +86,24 @@
     </ClInclude>
     <ClInclude Include="testdemo_supernovaThrusterBlock_event_addForce.h">
       <Filter>头文件\events</Filter>
+    </ClInclude>
+    <ClInclude Include="hitBox.h">
+      <Filter>头文件\hitBorders</Filter>
+    </ClInclude>
+    <ClInclude Include="hitLine.h">
+      <Filter>头文件\hitBorders</Filter>
+    </ClInclude>
+    <ClInclude Include="hitPoint.h">
+      <Filter>头文件\hitBorders</Filter>
+    </ClInclude>
+    <ClInclude Include="hitSphere.h">
+      <Filter>头文件\hitBorders</Filter>
+    </ClInclude>
+    <ClInclude Include="hitTree.h">
+      <Filter>头文件\hitBorders</Filter>
+    </ClInclude>
+    <ClInclude Include="spremaMath.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +163,21 @@
     </ClCompile>
     <ClCompile Include="testdemo_supernovaThrusterBlock_event_addForce.cpp">
       <Filter>源文件\events</Filter>
+    </ClCompile>
+    <ClCompile Include="hitBox.cpp">
+      <Filter>源文件\hitBorders</Filter>
+    </ClCompile>
+    <ClCompile Include="hitLine.cpp">
+      <Filter>源文件\hitBorders</Filter>
+    </ClCompile>
+    <ClCompile Include="hitPoint.cpp">
+      <Filter>源文件\hitBorders</Filter>
+    </ClCompile>
+    <ClCompile Include="hitSphere.cpp">
+      <Filter>源文件\hitBorders</Filter>
+    </ClCompile>
+    <ClCompile Include="hitTree.cpp">
+      <Filter>源文件\hitBorders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -26,6 +26,7 @@ dynamicObjectManager作为整个游戏的核心框架，应在此管理主要的游戏功能，和组成整个
 */
 
 #include "dynamicObject.h"
+#include <map>
 
 #define objManager dynamicObjectManager::getInstance()
 
@@ -63,6 +64,8 @@ class dynamicObjectManager
 		};
 
 		static garbageColle dynamicObjectManagerGarbageCollector;
+
+		std::map<int, force&> forceMap;
 };
 
 
