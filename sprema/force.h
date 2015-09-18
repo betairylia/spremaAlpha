@@ -1,5 +1,9 @@
 #pragma once
 
+#include "hitBorder.h"
+#include "spremaMath.h"
+#include <functional>
+
 enum forceType
 {						//		Ãû³Æ					Ö÷Òªdebuff						±¸×¢
 	CUT = 0x1,			//		ÇÐ¶Ï				 ³öÑª¡¢²Ð·Ï¡¢¼´ËÀ
@@ -23,9 +27,13 @@ class dynamicObject;
 class force
 {
 	public:
-		force();
+
+		template<typename Method>
+		force(dynamicObject* src, Method mth);
 		virtual ~force();
 
+		hitBorder* hitBrd;
+		std::function<spremaMath::Vector3(spremaMath::Vector3)> getValue;
 	private:
 		dynamicObject* sourceObject;
 };

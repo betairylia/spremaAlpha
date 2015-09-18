@@ -1,5 +1,8 @@
 #include "hitBox.h"
-
+#include "hitLine.h"
+#include "hitPoint.h"
+#include "hitSphere.h"
+#include "hitTree.h"
 
 
 hitBox::hitBox()
@@ -16,6 +19,7 @@ bool hitBox::onHit(hitBorder * target)
 	switch (target->hitType)
 	{
 		case HIT_BOX:
+		{
 			hitBox* tarBox = dynamic_cast<hitBox*>(target);
 
 			//关于OBB（有向包围盒）的详细信息请搜索...还没整理0 0
@@ -24,7 +28,7 @@ bool hitBox::onHit(hitBorder * target)
 			double min1, min2, max1, max2;
 
 			//本OBB的三个垂直轴
-			for (i = 0;i<3;i++)
+			for (i = 0;i < 3;i++)
 			{
 				getProjection(Q * axes[i], min1, max1);
 				tarBox->getProjection(Q * axes[i], min2, max2);
@@ -32,7 +36,7 @@ bool hitBox::onHit(hitBorder * target)
 			}
 
 			//判定OBB的三个垂直轴
-			for (i = 0;i<3;i++)
+			for (i = 0;i < 3;i++)
 			{
 				getProjection(tarBox->Q * axes[i], min1, max1);
 				tarBox->getProjection(tarBox->Q * axes[i], min2, max2);
@@ -40,9 +44,9 @@ bool hitBox::onHit(hitBorder * target)
 			}
 
 			//与三条轴垂直的九个轴
-			for (i = 0;i<3;i++)
+			for (i = 0;i < 3;i++)
 			{
-				for (j = 0;j<3;j++)
+				for (j = 0;j < 3;j++)
 				{
 					tmpAxis = (Q * axes[i]).crossProduct(tarBox->Q * axes[j]);//crossProduct: 叉乘
 					getProjection(tmpAxis, min1, max1);
@@ -52,6 +56,29 @@ bool hitBox::onHit(hitBorder * target)
 			}
 
 			return true;
+		}
+		break;
+
+		case HIT_TREE:
+		{
+			hitTree* tarTree = dynamic_cast<hitTree*>(target);
+
+			if (onHit(tarTree->hitBrd))
+			{
+				if (tarTree->child.size() > 0)
+				{
+					for (auto iter = tarTree->child.begin(); iter != tarTree->child.end(); iter++)
+						if (onHit(*iter))
+							return true;
+				}
+				else
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
 		break;
 	}
 }
