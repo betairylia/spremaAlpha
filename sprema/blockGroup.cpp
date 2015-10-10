@@ -1,5 +1,5 @@
 #include "blockGroup.h"
-
+#include "hitTree.h"
 
 
 blockGroup::blockGroup()
@@ -37,7 +37,41 @@ void blockGroup::attachForces(list<force>& forces)
 
 list<force>* blockGroup::getImpactForces()
 {
-	return nullptr;
+	list<force>* listA = new list<force>();
+	getImpactForces_d(listA, hitTarget);
+
+	//normalize
+	double total = 0, rate = 1.00;
+	for each(auto frc in (*listA))
+	{
+		total += frc.numberValue;
+	}
+
+	//TODO:º∆À„rate
+	for each(auto frc in (*listA))
+	{
+		frc.factor = rate;
+	}
+
+	return listA;
+}
+
+void blockGroup::getImpactForces_d(list<force>* listA, hitBorder* hit)
+{
+	if (hit->hitType == HIT_TREE)
+	{
+		for each (auto iter in static_cast<hitTree*>(hit)->child)
+		{
+			if (iter.second)
+			{
+				getImpactForces_d(listA, iter.first);
+			}
+		}
+	}
+	else
+	{
+		listA->merge(hit->dObject->getImpactForces);
+	}
 }
 
 void blockGroup::loadFile()

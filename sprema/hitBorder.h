@@ -1,5 +1,7 @@
 #pragma once
 
+class dynamicObject;
+
 enum hitFlags
 {
 	HIT_CREATURE = 0x1,
@@ -31,6 +33,7 @@ class hitBorder
 
 		hitFlags hitFlag;
 		hitTypes hitType;
+		dynamicObject* dObject;
 	protected:
 };
 

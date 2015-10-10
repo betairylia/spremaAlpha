@@ -33,7 +33,10 @@ class force
 		virtual ~force();
 
 		hitBorder* hitBrd;
-		std::function<spremaMath::Vector3(spremaMath::Vector3)> getValue;
+		std::function<spremaMath::Vector3(hitBorder* integralBorder)> getValue;
+
+		double factor;
+		double numberValue;
 	private:
 		dynamicObject* sourceObject;
 };

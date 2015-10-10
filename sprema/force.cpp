@@ -5,10 +5,13 @@
 template<typename Method>
 force::force(dynamicObject * src, Method mth) :
 	sourceObject(src),
-	getValue(mth)
+	getValue(mth),
+	factor(1.00)
 {
+
 }
 
 force::~force()
 {
+
 }
