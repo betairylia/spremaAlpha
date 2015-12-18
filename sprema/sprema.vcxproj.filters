@@ -105,6 +105,9 @@
     <ClInclude Include="spremaMath.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="hitQuad.h">
+      <Filter>头文件\hitBorders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dynamicObject.cpp">
@@ -177,6 +180,9 @@
       <Filter>源文件\hitBorders</Filter>
     </ClCompile>
     <ClCompile Include="hitTree.cpp">
+      <Filter>源文件\hitBorders</Filter>
+    </ClCompile>
+    <ClCompile Include="hitQuad.cpp">
       <Filter>源文件\hitBorders</Filter>
     </ClCompile>
   </ItemGroup>

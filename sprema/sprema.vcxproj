@@ -30,6 +30,7 @@
     <ClInclude Include="hitBox.h" />
     <ClInclude Include="hitLine.h" />
     <ClInclude Include="hitPoint.h" />
+    <ClInclude Include="hitQuad.h" />
     <ClInclude Include="hitSphere.h" />
     <ClInclude Include="hitTree.h" />
     <ClInclude Include="life.h" />
@@ -56,6 +57,7 @@
     <ClCompile Include="hitBox.cpp" />
     <ClCompile Include="hitLine.cpp" />
     <ClCompile Include="hitPoint.cpp" />
+    <ClCompile Include="hitQuad.cpp" />
     <ClCompile Include="hitSphere.cpp" />
     <ClCompile Include="hitTree.cpp" />
     <ClCompile Include="life.cpp" />
