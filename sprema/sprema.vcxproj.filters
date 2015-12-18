@@ -31,6 +31,18 @@
     <Filter Include="源文件\hitBorders">
       <UniqueIdentifier>{6f1aa6dc-f226-42e9-92d9-8e4cc1e3f479}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\Renderers">
+      <UniqueIdentifier>{880cf24d-b86d-4b9d-9e9e-b99c22145d0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Renderers">
+      <UniqueIdentifier>{eac57ae5-eab6-4a3d-b5ab-7c25359e3614}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\objects">
+      <UniqueIdentifier>{6208b1a5-5b70-473c-b9e4-712b7254c53a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\objects">
+      <UniqueIdentifier>{29223fea-fcac-4afe-bccc-5095143722e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dynamicObject.h">
@@ -105,6 +117,12 @@
     <ClInclude Include="spremaMath.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="blockGroupRenderer.h">
+      <Filter>头文件\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="weapon.h">
+      <Filter>头文件\objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dynamicObject.cpp">
@@ -178,6 +196,12 @@
     </ClCompile>
     <ClCompile Include="hitTree.cpp">
       <Filter>源文件\hitBorders</Filter>
+    </ClCompile>
+    <ClCompile Include="blockGroupRenderer.cpp">
+      <Filter>源文件\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="weapon.cpp">
+      <Filter>源文件\objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
