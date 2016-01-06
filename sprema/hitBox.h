@@ -13,6 +13,7 @@ class hitBox :
 		virtual ~hitBox();
 
 		virtual bool onHit(hitBorder *target);
+		bool facexXyYzZ[6];//x -x y -y z -z
 		//virtual void switchSpace(/*todo*/) = 0;
 		//virtual hitAABB getAABB() = 0;
 	private:

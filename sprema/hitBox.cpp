@@ -62,14 +62,22 @@ bool hitBox::onHit(hitBorder * target)
 		case HIT_TREE:
 		{
 			hitTree* tarTree = dynamic_cast<hitTree*>(target);
+			bool flag = false;
 
 			if (onHit(tarTree->hitBrd))
 			{
 				if (tarTree->child.size() > 0)
 				{
 					for (auto iter = tarTree->child.begin(); iter != tarTree->child.end(); iter++)
-						if (onHit(*iter))
-							return true;
+					{
+						iter->second = false;
+						if (onHit(iter->first))
+						{
+							iter->second = true;
+							flag = true;
+						}
+					}
+					return flag;
 				}
 				else
 				{

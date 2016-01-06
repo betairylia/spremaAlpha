@@ -10,7 +10,7 @@ class hitTree :
 		virtual ~hitTree();
 
 		hitBorder* hitBrd;
-		std::vector<hitTree*> child;
+		std::vector<std::pair<hitTree*, bool>> child;
 	private:
 };
 

@@ -1,11 +1,9 @@
 #pragma once
 
-#include "spremaMath.h"
 #include "force.h"
 #include <list>
 
 using namespace std;
-using namespace spremaMath;
 
 class dynamicObject
 {
@@ -21,9 +19,12 @@ class dynamicObject
 		virtual void loadFile(/*...*/) = 0;//从文件中读取数据。
 		virtual void saveFile(/*...*/) = 0;//向文件中保存数据。
 
-		virtual Vector3 getSpeed(Vector3 localPos = Vector3(0, 0, 0));
+		hitBorder* hitTarget;//碰撞体，对于方块组：层级结构：方块组->存储器->方块
 
+		/*virtual bool getHit(dynamicObject* target);
+		virtual bool getHit(force* target);
+		virtual bool getHit(hitBorder* target);*/
 	protected:
-		Vector3 speed;
+		
 };
 
