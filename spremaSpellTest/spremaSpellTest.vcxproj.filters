@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\unitMagic">
+      <UniqueIdentifier>{d57bceb3-55b2-4eb8-918b-65901fbd8539}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\unitMagic">
+      <UniqueIdentifier>{b3a18706-ac91-4e43-beb1-c314a641ae1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\spellVariable">
+      <UniqueIdentifier>{2caa2949-6af9-47f5-8941-0c1ebcf8b999}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\spellVariable">
+      <UniqueIdentifier>{bd9730c3-a056-434c-aeee-d3ccf36067c5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="spellAnalyser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="helperMagic.cpp">
+      <Filter>Source Files\unitMagic</Filter>
+    </ClCompile>
+    <ClCompile Include="loopMagic.cpp">
+      <Filter>Source Files\unitMagic</Filter>
+    </ClCompile>
+    <ClCompile Include="unitMagic.cpp">
+      <Filter>Source Files\unitMagic</Filter>
+    </ClCompile>
+    <ClCompile Include="spellVariable.cpp">
+      <Filter>Source Files\spellVariable</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="spellAnalyser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="helperMagic.h">
+      <Filter>Header Files\unitMagic</Filter>
+    </ClInclude>
+    <ClInclude Include="loopMagic.h">
+      <Filter>Header Files\unitMagic</Filter>
+    </ClInclude>
+    <ClInclude Include="unitMagic.h">
+      <Filter>Header Files\unitMagic</Filter>
+    </ClInclude>
+    <ClInclude Include="spellVariable.h">
+      <Filter>Header Files\spellVariable</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
