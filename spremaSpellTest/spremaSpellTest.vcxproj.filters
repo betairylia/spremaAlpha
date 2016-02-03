@@ -13,17 +13,23 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\unitMagic">
-      <UniqueIdentifier>{d57bceb3-55b2-4eb8-918b-65901fbd8539}</UniqueIdentifier>
+    <Filter Include="Header Files\Magic system">
+      <UniqueIdentifier>{3d11cc57-a02d-4aac-b354-f021e9590cb1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\unitMagic">
-      <UniqueIdentifier>{b3a18706-ac91-4e43-beb1-c314a641ae1f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\spellVariable">
+    <Filter Include="Header Files\Magic system\spellVariable">
       <UniqueIdentifier>{2caa2949-6af9-47f5-8941-0c1ebcf8b999}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\spellVariable">
+    <Filter Include="Header Files\Magic system\unitMagic">
+      <UniqueIdentifier>{b3a18706-ac91-4e43-beb1-c314a641ae1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Magic system">
+      <UniqueIdentifier>{f1a90092-99b3-4740-91a2-f9173e4c11bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Magic system\spellVariable">
       <UniqueIdentifier>{bd9730c3-a056-434c-aeee-d3ccf36067c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Magic system\unitMagic">
+      <UniqueIdentifier>{d57bceb3-55b2-4eb8-918b-65901fbd8539}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -34,16 +40,19 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="helperMagic.cpp">
-      <Filter>Source Files\unitMagic</Filter>
-    </ClCompile>
-    <ClCompile Include="loopMagic.cpp">
-      <Filter>Source Files\unitMagic</Filter>
-    </ClCompile>
-    <ClCompile Include="unitMagic.cpp">
-      <Filter>Source Files\unitMagic</Filter>
+      <Filter>Source Files\Magic system\unitMagic</Filter>
     </ClCompile>
     <ClCompile Include="spellVariable.cpp">
-      <Filter>Source Files\spellVariable</Filter>
+      <Filter>Source Files\Magic system\spellVariable</Filter>
+    </ClCompile>
+    <ClCompile Include="unitMagicFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="controlMagic.cpp">
+      <Filter>Source Files\Magic system\unitMagic</Filter>
+    </ClCompile>
+    <ClCompile Include="controlHandle.cpp">
+      <Filter>Source Files\Magic system</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -51,16 +60,22 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="helperMagic.h">
-      <Filter>Header Files\unitMagic</Filter>
-    </ClInclude>
-    <ClInclude Include="loopMagic.h">
-      <Filter>Header Files\unitMagic</Filter>
+      <Filter>Header Files\Magic system\unitMagic</Filter>
     </ClInclude>
     <ClInclude Include="unitMagic.h">
-      <Filter>Header Files\unitMagic</Filter>
+      <Filter>Header Files\Magic system\unitMagic</Filter>
     </ClInclude>
     <ClInclude Include="spellVariable.h">
-      <Filter>Header Files\spellVariable</Filter>
+      <Filter>Header Files\Magic system\spellVariable</Filter>
+    </ClInclude>
+    <ClInclude Include="unitMagicFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="controlMagic.h">
+      <Filter>Header Files\Magic system\unitMagic</Filter>
+    </ClInclude>
+    <ClInclude Include="controlHandle.h">
+      <Filter>Header Files\Magic system</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

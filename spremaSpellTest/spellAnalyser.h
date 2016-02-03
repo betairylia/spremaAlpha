@@ -5,10 +5,18 @@
 #include <stack>
 #include <vector>
 #include "unitMagic.h"
-#include "loopMagic.h"
+#include "controlMagic.h"
+#include "controlHandle.h"
 #include "spellVariable.h"
+#include "unitMagicFactory.h"
 
 using namespace std;
+
+typedef struct _operationWTypes
+{
+	char type;//'_': create Matrix; '+' '-' '*' '/'...etc.; 's' for spells(unit Magic);
+	unitMagic* magicPtr;
+}operationWTypes;
 
 class spellAnalyser
 {
@@ -32,10 +40,12 @@ class spellAnalyser
 		}
 
 	private:
-		stack<unitMagic*> magicStack;
-		stack<spellVariable> paramStack;
-		stack<loopMagic*> loopStack;
+		stack<operationWTypes> operationStack;
+		stack<spellVariable*> paramStack;
+		stack<controlHandle*> ctrlStack;
 		vector<spellVariable> variableMap;
 		//PSO
+
+		unitMagicFactory * magicFactory;
 };
 

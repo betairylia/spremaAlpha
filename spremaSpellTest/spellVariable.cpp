@@ -4,6 +4,7 @@
 
 spellVariable::spellVariable()
 {
+	temp = false;
 }
 
 

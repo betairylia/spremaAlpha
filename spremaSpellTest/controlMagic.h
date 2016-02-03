@@ -1,10 +1,10 @@
 #pragma once
 #include "unitMagic.h"
-class loopMagic :
+class controlMagic :
 	public unitMagic
 {
 public:
-	loopMagic();
-	~loopMagic();
+	controlMagic();
+	~controlMagic();
 };
 

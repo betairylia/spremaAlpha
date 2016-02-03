@@ -146,19 +146,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="controlHandle.cpp" />
+    <ClCompile Include="controlMagic.cpp" />
     <ClCompile Include="helperMagic.cpp" />
-    <ClCompile Include="loopMagic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="spellAnalyser.cpp" />
     <ClCompile Include="spellVariable.cpp" />
-    <ClCompile Include="unitMagic.cpp" />
+    <ClCompile Include="unitMagicFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="controlHandle.h" />
+    <ClInclude Include="controlMagic.h" />
     <ClInclude Include="helperMagic.h" />
-    <ClInclude Include="loopMagic.h" />
     <ClInclude Include="spellAnalyser.h" />
     <ClInclude Include="spellVariable.h" />
     <ClInclude Include="unitMagic.h" />
+    <ClInclude Include="unitMagicFactory.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
