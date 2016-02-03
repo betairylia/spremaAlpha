@@ -41,6 +41,12 @@ v1=s1(df+_(v0%10,v0/10,0))					|<[s1][=]							|<[)][df+v0%10,v0/10,0][(][v1]
 											|<[=]								|<[s1(df+v0%10,v0/10,0)][v1]
 											|<									|<
 Completed.
+
+Test file:
+
+File location:								root
+File name:									testSpell-dircFlameArray.txt
+File contains:								v0=s0(_(1%10,1/10,0));
 */
 bool spellAnalyser::doSpell(string spellStr)
 {
