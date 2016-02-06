@@ -1,4 +1,6 @@
 #pragma once
+
+#include "controlMagic.h"
 #include "unitMagic.h"
 
 class unitMagicFactory
@@ -12,7 +14,20 @@ class unitMagicFactory
 
 		unitMagic* createMagicFromFactory(int ID)
 		{
-			return new tmpMagic();
+			switch (ID)
+			{
+				case 0:
+					return new simpleLoop_Magic_testS0();
+				break;
+
+				case 1:
+					return new simpleFireBall_testS1();
+				break;
+
+				case 2:
+					return new floor_testS2();
+				break;
+			}
 		}
 };
 

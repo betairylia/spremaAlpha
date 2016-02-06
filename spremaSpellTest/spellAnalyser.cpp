@@ -55,17 +55,27 @@ bool spellAnalyser::doSpell(string spellStr)
 	while (ctrlStack.size()) ctrlStack.pop();
 	variableMap.clear();
 
-	int i,len = spellStr.length(), nowRowNum = 1;
+	barPosCache.clear();
+	barPosCache.push_back(0);
+
+	int i,len = spellStr.length(), nowRowNum = 1, targetRowNum;
 
 	double tmp = 0;
 	operationWTypes tmpOperator;
-
-	bool ovrFlag;
 
 	for (i = 0; i < len; i++)
 	{
 		switch (spellStr[i])
 		{
+			case 'u': //uniform Variables
+			{
+				spellVariable* tmp;
+
+				i = readConst(spellStr, i + 1, tmp);
+				paramStack.push(tmp);
+			}
+			break;
+
 			case 'v': //Variables
 				i = readANum(spellStr, i + 1, tmp);
 				
@@ -87,40 +97,93 @@ bool spellAnalyser::doSpell(string spellStr)
 
 				//create magic object, check & save variable stack top, add into stack
 				tmpOperator.type = 's';
-				tmpOperator.magicPtr = magicFactory->createMagicFromFactory(i);
+				tmpOperator.magicPtr = magicFactory->createMagicFromFactory(tmp);
+				tmpOperator.level = getLevel('s');
+
+				doOperation(spellStr, tmpOperator, nowRowNum);
 
 				operationStack.push(tmpOperator);
 			}
 			break;
 
 			case ';':
+				tmpOperator.type = spellStr[i];
+				tmpOperator.level = getLevel(spellStr[i]);
+
+				doOperation(spellStr, tmpOperator, nowRowNum);
+
 				while (paramStack.size()) paramStack.pop();
 				while (operationStack.size()) operationStack.pop();
-				nowRowNum++;
+
+				//在这里插入咏唱构式（流程控制）
+				while (ctrlStack.size() && ctrlStack.top()->alive == false) ctrlStack.pop();
+				if (ctrlStack.size())
+				{
+					targetRowNum = ctrlStack.top()->control(variableMap, nowRowNum);
+				}
+				else
+				{
+					targetRowNum = nowRowNum + 1;
+				}
+
+				if (targetRowNum != nowRowNum + 1)
+				{
+					//可以跳转
+					if (targetRowNum <= barPosCache.size())
+					{
+						//进行跳转
+						i = barPosCache.at(targetRowNum - 1);
+						nowRowNum = targetRowNum;
+					}
+					//不能跳转（没有那一小节的索引），向后寻找
+					else
+					{
+						//todo
+					}
+				}
+				else
+				{
+					//统计行号
+					if (nowRowNum == barPosCache.size())
+						barPosCache.push_back(i + 1);
+
+					nowRowNum++;
+				}
 			break;
 
-			case '(':
-			case ')':
 			case ',':
-			{
-				spellVariable* a = new spellVariable();
-				a->temp = true;
-				a->type = spellStr[i];
+				tmpOperator.type = spellStr[i];
+				tmpOperator.level = getLevel(spellStr[i]);
 
-				paramStack.push(a);
-			}
+				doOperation(spellStr, tmpOperator, nowRowNum);
 			break;
 
 			case '_':
+				i = readANum(spellStr, i + 1, tmp);
+
+				//create magic object, check & save variable stack top, add into stack
+				tmpOperator.type = '_';
+				tmpOperator.magicPtr = (unitMagic*)(int)tmp;
+				tmpOperator.level = getLevel('_');
+
+				doOperation(spellStr, tmpOperator, nowRowNum);
+
+				operationStack.push(tmpOperator);
+			break;
+
 			case '+':
 			case '-':
 			case '*':
 			case '/':
 			case '%':
 			case '=':
+			case '(':
+			case ')':
 				tmpOperator.type = spellStr[i];
+				tmpOperator.level = getLevel(spellStr[i]);
 
-				operationStack.push(tmpOperator);
+				if(doOperation(spellStr, tmpOperator, nowRowNum))
+					operationStack.push(tmpOperator);
 			break;
 
 			case '0':
@@ -154,366 +217,7 @@ bool spellAnalyser::doSpell(string spellStr)
 		//	'+'	'-'...	=>				calculate
 		//	'_'			=>				make array
 		//then push into variable / controlHandle stack.
-
-		ovrFlag = false;
-		while (operationStack.size() && !ovrFlag)
-		{
-			switch (operationStack.top().type)
-			{
-				case 's':
-				{
-					if (paramStack.top()->type != ')')
-					{
-						ovrFlag = true;
-						break;
-					}
-
-					spellVariable* t = paramStack.top();
-					paramStack.pop();
-					delete t;
-
-					if (paramStack.size() < 1)
-					{
-						ovrFlag = true;
-						break;
-					}
-
-					if (operationStack.top().magicPtr->canControl)
-					{
-						//todo: ctrl Magics.
-					}
-					else
-					{
-						unitMagic* uM = operationStack.top().magicPtr;
-
-						//NO ERRORS THERE, cuz errors can be found during compling.
-						while (paramStack.top()->type != '(')
-						{
-							if (paramStack.top()->type == ',')
-							{
-								spellVariable* t = paramStack.top();
-								paramStack.pop();
-								delete t;
-
-								continue;
-							}
-
-							else if (paramStack.top()->type != ')')
-							{
-								uM->paramList.push_back(paramStack.top());
-								paramStack.pop();
-							}
-
-							else
-							{
-								//throw error
-								ovrFlag = true;
-								break;
-							}
-						}
-						if (paramStack.top()->type == '(')
-						{
-							spellVariable* t = paramStack.top();
-							paramStack.pop();
-							delete t;
-						}
-
-						spellVariable* returnValue = uM->doMagic();
-
-						paramStack.push(returnValue);
-						operationStack.pop();
-					}
-				}
-				break;
-
-				case '+':
-				{
-					if (paramStack.size() < 2)
-					{
-						ovrFlag = true;
-						break;
-					}
-
-					spellVariable* tmp = paramStack.top();
-					paramStack.pop();
-
-					if (tmp->type == 'n' && paramStack.top()->type == 'n' && tmp->number.size() == paramStack.top()->number.size())
-					{
-						int j, tl = tmp->number.size();
-						for (j = 0; j < tl; j++)
-						{
-							paramStack.top()->number.at(j) += tmp->number.at(j);
-						}
-						operationStack.pop();
-
-						if (tmp->temp) delete tmp;
-					}
-					else
-					{
-						paramStack.push(tmp);
-						ovrFlag = true;
-						break;
-					}
-				}
-				break;
-
-				case '-':
-				{
-					if (paramStack.size() < 2)
-					{
-						ovrFlag = true;
-						break;
-					}
-
-					spellVariable* tmp = paramStack.top();
-					paramStack.pop();
-
-					if (tmp->type == 'n' && paramStack.top()->type == 'n' && tmp->number.size() == paramStack.top()->number.size())
-					{
-						int j, tl = tmp->number.size();
-						for (j = 0; j < tl; j++)
-						{
-							paramStack.top()->number.at(j) -= tmp->number.at(j);
-						}
-						operationStack.pop();
-
-						if (tmp->temp) delete tmp;
-					}
-					else
-					{
-						paramStack.push(tmp);
-						ovrFlag = true;
-						break;
-					}
-				}
-				break;
-
-				case '*':
-				{
-					if (paramStack.size() < 2)
-					{
-						ovrFlag = true;
-						break;
-					}
-
-					spellVariable* tmp = paramStack.top();
-					paramStack.pop();
-
-					if (tmp->type == 'n' && paramStack.top()->type == 'n' && tmp->number.size() == paramStack.top()->number.size())
-					{
-						int j, tl = tmp->number.size();
-						for (j = 0; j < tl; j++)
-						{
-							paramStack.top()->number.at(j) *= tmp->number.at(j);
-						}
-						operationStack.pop();
-
-						if (tmp->temp) delete tmp;
-					}
-					else
-					{
-						paramStack.push(tmp);
-						ovrFlag = true;
-						break;
-					}
-				}
-				break;
-
-				case '/':
-				{
-					if (paramStack.size() < 2)
-					{
-						ovrFlag = true;
-						break;
-					}
-
-					spellVariable* tmp = paramStack.top();
-					paramStack.pop();
-
-					if (tmp->type == 'n' && paramStack.top()->type == 'n' && tmp->number.size() == paramStack.top()->number.size())
-					{
-						int j, tl = tmp->number.size();
-						for (j = 0; j < tl; j++)
-						{
-							paramStack.top()->number.at(j) /= tmp->number.at(j);
-						}
-						operationStack.pop();
-
-						if (tmp->temp) delete tmp;
-					}
-					else
-					{
-						paramStack.push(tmp);
-						ovrFlag = true;
-						break;
-					}
-				}
-				break;
-
-				case '%':
-				{
-					if (paramStack.size() < 2)
-					{
-						ovrFlag = true;
-						break;
-					}
-
-					spellVariable* tmp = paramStack.top();
-					paramStack.pop();
-
-					if (tmp->type == 'n' && paramStack.top()->type == 'n' && tmp->number.size() == paramStack.top()->number.size())
-					{
-						int j, tl = tmp->number.size();
-						for (j = 0; j < tl; j++)
-						{
-							paramStack.top()->number.at(j) = (double)((int)paramStack.top()->number.at(j) % (int)tmp->number.at(j));
-						}
-						operationStack.pop();
-
-						if (tmp->temp) delete tmp;
-					}
-					else
-					{
-						paramStack.push(tmp);
-						ovrFlag = true;
-						break;
-					}
-				}
-				break;
-
-				case '=':
-				{
-					if (paramStack.size() < 2)
-					{
-						ovrFlag = true;
-						break;
-					}
-
-					spellVariable* tmp = paramStack.top();
-					paramStack.pop();
-
-					if (tmp->type == 'n')
-					{
-						paramStack.top()->type = 'n';
-						paramStack.top()->number.clear();
-
-						int j, tl = tmp->number.size();
-						for (j = 0; j < tl; j++)
-						{
-							paramStack.top()->number.push_back(tmp->number.at(j));
-						}
-						operationStack.pop();
-
-						if (tmp->temp) delete tmp;
-					}
-
-					else if (tmp->type == 'd')
-					{
-						paramStack.top()->type = 'd';
-						paramStack.top()->dyna.clear();
-
-						int j, tl = tmp->dyna.size();
-						for (j = 0; j < tl; j++)
-						{
-							paramStack.top()->dyna.push_back(tmp->dyna.at(j));
-						}
-						operationStack.pop();
-
-						if (tmp->temp) delete tmp;
-					}
-
-					else
-					{
-						paramStack.push(tmp);
-						ovrFlag = true;
-						break;
-					}
-				}
-				break;
-
-				case '_':
-				{
-					if (paramStack.top()->type != ')')
-					{
-						ovrFlag = true;
-						break;
-					}
-
-					spellVariable* t = paramStack.top();
-					paramStack.pop();
-					delete t;
-
-					if (paramStack.size() < 1)
-					{
-						ovrFlag = true;
-						break;
-					}
-
-					stack<spellVariable*> tmpStack;
-					char typ = paramStack.top()->type;
-
-					if (typ == ')' || typ == '(' || typ == ',')
-					{
-						ovrFlag = true;
-						break;
-					}
-
-					while (paramStack.top()->type == typ || paramStack.top()->type == ',')
-					{
-						if (paramStack.top()->type == ',')
-						{
-							spellVariable* t = paramStack.top();
-							paramStack.pop();
-							delete t;
-
-							continue;
-						}
-
-						tmpStack.push(paramStack.top());
-						paramStack.pop();
-					}
-
-					if (paramStack.top()->type == '(')
-					{
-						paramStack.pop();
-						paramStack.push(tmpStack.top());
-						tmpStack.pop();
-
-						while (tmpStack.size())
-						{
-							if (typ == 'n')
-							{
-								int j, tl = tmpStack.top()->number.size();
-								for (j = 0; j < tl; j++)
-								{
-									paramStack.top()->number.push_back(tmpStack.top()->number[j]);
-								}
-							}
-
-							if (typ == 'd')
-							{
-								int j, tl = tmpStack.top()->dyna.size();
-								for (j = 0; j < tl; j++)
-								{
-									paramStack.top()->dyna.push_back(tmpStack.top()->dyna[j]);
-								}
-							}
-
-							tmpStack.pop();
-						}
-
-						operationStack.pop();
-					}
-					else
-					{
-						//throw error
-						ovrFlag = true;
-						break;
-					}
-				}
-				break;
-			}
-		}
+		//v0=s0(uFP+_(1%10,1/10,0));v1=0;v1=v1+1;
 	}
 
 	cout << "Variable Table:" << endl;
@@ -546,6 +250,433 @@ bool spellAnalyser::doSpell(string spellStr)
 		}
 	}
 
+	return true;
+}
+
+bool spellAnalyser::doOperation(string spellStr, operationWTypes & op, int barNum)
+{
+	if (!operationStack.size()) return true;
+
+	bool ovrFlag = false;
+
+	while (operationStack.size() && operationStack.top().level >= op.level && !ovrFlag)
+	{
+		switch (operationStack.top().type)
+		{
+			case 's':
+			{
+				if (paramStack.size() < operationStack.top().magicPtr->paramCount)
+				{
+					ovrFlag = true;
+					break;
+				}
+
+				if (paramStack.size() < 1)
+				{
+					ovrFlag = true;
+					break;
+				}
+
+				if (operationStack.top().magicPtr->canControl)
+				{
+					controlMagic* uM = dynamic_cast<controlMagic*>(operationStack.top().magicPtr);
+					int pC = 0;//pC: 当前已经传入了的参数的计数（paramCount）；数量符合要求时停止传入参数。
+					int tC = operationStack.top().magicPtr->paramCount;
+					uM->paramList.resize(tC + 1);
+
+					//对于咏唱构式型先传入当前小节序号：
+					spellVariable* nowNumTmpParam = new spellVariable();
+					
+					nowNumTmpParam->type = 'n';
+					nowNumTmpParam->number.push_back(barNum);
+
+					uM->paramList[0] = nowNumTmpParam;
+
+					//NO ERRORS THERE, cuz errors can be found during compling.
+					//参数不应出错。在编辑咒文（IDE中）时就会完全避免掉参数类型的错误。
+					while (pC < tC)
+					{
+						uM->paramList[tC - pC] = paramStack.top();
+						paramStack.pop();
+						pC++;
+					}
+
+					spellVariable* returnValue = uM->doMagic();
+					controlHandle* returnHandle = uM->doControl();
+
+					if (returnValue)
+						paramStack.push(returnValue);
+					if (returnHandle)
+						ctrlStack.push(returnHandle);
+
+					operationStack.pop();
+				}
+				else
+				{
+					unitMagic* uM = operationStack.top().magicPtr;
+					int pC = 0;//pC: 当前已经传入了的参数的计数（paramCount）；数量符合要求时停止传入参数。
+					int tC = operationStack.top().magicPtr->paramCount;
+					uM->paramList.resize(tC);
+
+					//NO ERRORS THERE, cuz errors can be found during compling.
+					//参数不应出错。在编辑咒文（IDE中）时就会完全避免掉参数类型的错误。
+					while (pC < tC)
+					{
+						uM->paramList[tC - pC - 1] = paramStack.top();
+						paramStack.pop();
+						pC++;
+					}
+
+					spellVariable* returnValue = uM->doMagic();
+
+					if (returnValue)
+						paramStack.push(returnValue);
+
+					operationStack.pop();
+				}
+			}
+			break;
+
+			case '+':
+			{
+				if (paramStack.size() < 2)
+				{
+					ovrFlag = true;
+					break;
+				}
+
+				spellVariable* tmpA = paramStack.top();
+				paramStack.pop();
+
+				spellVariable* tmpB = paramStack.top();
+				paramStack.pop();
+
+				spellVariable* tmpC = new spellVariable();
+
+				if (tmpA->type == 'n' && tmpB->type == 'n' && tmpA->number.size() == tmpB->number.size())
+				{
+					tmpC->type = 'n';
+					tmpC->temp = true;
+					int j, tl = tmpA->number.size();
+					for (j = 0; j < tl; j++)
+					{
+						tmpC->number.push_back(tmpB->number.at(j) + tmpA->number.at(j));
+					}
+					operationStack.pop();
+
+					if (tmpA->temp) delete tmpA;
+					if (tmpB->temp) delete tmpB;
+					paramStack.push(tmpC);
+				}
+				else
+				{
+					paramStack.push(tmpB);
+					paramStack.push(tmpA);
+					delete tmpC;
+					ovrFlag = true;
+					break;
+				}
+			}
+			break;
+
+			case '-':
+			{
+				if (paramStack.size() < 2)
+				{
+					ovrFlag = true;
+					break;
+				}
+
+				spellVariable* tmpA = paramStack.top();
+				paramStack.pop();
+
+				spellVariable* tmpB = paramStack.top();
+				paramStack.pop();
+
+				spellVariable* tmpC = new spellVariable();
+
+				if (tmpA->type == 'n' && tmpB->type == 'n' && tmpA->number.size() == tmpB->number.size())
+				{
+					tmpC->type = 'n';
+					tmpC->temp = true;
+					int j, tl = tmpA->number.size();
+					for (j = 0; j < tl; j++)
+					{
+						tmpC->number.push_back(tmpB->number.at(j) - tmpA->number.at(j));
+					}
+					operationStack.pop();
+
+					if (tmpA->temp) delete tmpA;
+					if (tmpB->temp) delete tmpB;
+					paramStack.push(tmpC);
+				}
+				else
+				{
+					paramStack.push(tmpB);
+					paramStack.push(tmpA);
+					delete tmpC;
+					ovrFlag = true;
+					break;
+				}
+			}
+			break;
+
+			case '*':
+			{
+				if (paramStack.size() < 2)
+				{
+					ovrFlag = true;
+					break;
+				}
+
+				spellVariable* tmpA = paramStack.top();
+				paramStack.pop();
+
+				spellVariable* tmpB = paramStack.top();
+				paramStack.pop();
+
+				spellVariable* tmpC = new spellVariable();
+
+				if (tmpA->type == 'n' && tmpB->type == 'n' && tmpA->number.size() == tmpB->number.size())
+				{
+					tmpC->type = 'n';
+					tmpC->temp = true;
+					int j, tl = tmpA->number.size();
+					for (j = 0; j < tl; j++)
+					{
+						tmpC->number.push_back(tmpB->number.at(j) * tmpA->number.at(j));
+					}
+					operationStack.pop();
+
+					if (tmpA->temp) delete tmpA;
+					if (tmpB->temp) delete tmpB;
+					paramStack.push(tmpC);
+				}
+				else
+				{
+					paramStack.push(tmpB);
+					paramStack.push(tmpA);
+					delete tmpC;
+					ovrFlag = true;
+					break;
+				}
+			}
+			break;
+
+			case '/':
+			{
+				if (paramStack.size() < 2)
+				{
+					ovrFlag = true;
+					break;
+				}
+
+				spellVariable* tmpA = paramStack.top();
+				paramStack.pop();
+
+				spellVariable* tmpB = paramStack.top();
+				paramStack.pop();
+
+				spellVariable* tmpC = new spellVariable();
+
+				if (tmpA->type == 'n' && tmpB->type == 'n' && tmpA->number.size() == tmpB->number.size())
+				{
+					tmpC->type = 'n';
+					tmpC->temp = true;
+					int j, tl = tmpA->number.size();
+					for (j = 0; j < tl; j++)
+					{
+						tmpC->number.push_back(tmpB->number.at(j) / tmpA->number.at(j));
+					}
+					operationStack.pop();
+
+					if (tmpA->temp) delete tmpA;
+					if (tmpB->temp) delete tmpB;
+					paramStack.push(tmpC);
+				}
+				else
+				{
+					paramStack.push(tmpB);
+					paramStack.push(tmpA);
+					delete tmpC;
+					ovrFlag = true;
+					break;
+				}
+			}
+			break;
+
+			case '%':
+			{
+				if (paramStack.size() < 2)
+				{
+					ovrFlag = true;
+					break;
+				}
+
+				spellVariable* tmpA = paramStack.top();
+				paramStack.pop();
+
+				spellVariable* tmpB = paramStack.top();
+				paramStack.pop();
+
+				spellVariable* tmpC = new spellVariable();
+
+				if (tmpA->type == 'n' && tmpB->type == 'n' && tmpA->number.size() == tmpB->number.size())
+				{
+					tmpC->type = 'n';
+					tmpC->temp = true;
+					int j, tl = tmpA->number.size();
+					for (j = 0; j < tl; j++)
+					{
+						tmpC->number.push_back((double)((int)tmpB->number.at(j) % (int)tmpA->number.at(j)));
+					}
+					operationStack.pop();
+
+					if (tmpA->temp) delete tmpA;
+					if (tmpB->temp) delete tmpB;
+					paramStack.push(tmpC);
+				}
+				else
+				{
+					paramStack.push(tmpB);
+					paramStack.push(tmpA);
+					delete tmpC;
+					ovrFlag = true;
+					break;
+				}
+			}
+			break;
+
+			case '=':
+			{
+				if (paramStack.size() < 2)
+				{
+					ovrFlag = true;
+					break;
+				}
+
+				spellVariable* tmp = paramStack.top();
+				paramStack.pop();
+
+				if (tmp == paramStack.top()) break;
+
+				if (tmp->type == 'n')
+				{
+					paramStack.top()->type = 'n';
+					paramStack.top()->number.clear();
+
+					int j, tl = tmp->number.size();
+					for (j = 0; j < tl; j++)
+					{
+						paramStack.top()->number.push_back(tmp->number.at(j));
+					}
+					operationStack.pop();
+
+					if (tmp->temp) delete tmp;
+				}
+
+				else if (tmp->type == 'd')
+				{
+					paramStack.top()->type = 'd';
+					paramStack.top()->dyna.clear();
+
+					int j, tl = tmp->dyna.size();
+					for (j = 0; j < tl; j++)
+					{
+						paramStack.top()->dyna.push_back(tmp->dyna.at(j));
+					}
+					operationStack.pop();
+
+					if (tmp->temp) delete tmp;
+				}
+
+				else
+				{
+					paramStack.push(tmp);
+					ovrFlag = true;
+					break;
+				}
+			}
+			break;
+
+			case '_':
+			{
+				int numCount = (int)operationStack.top().magicPtr;
+				if (paramStack.size() < numCount)
+				{
+					ovrFlag = true;
+					break;
+				}
+
+				spellVariable* ans = new spellVariable();
+				ans->temp = true;
+				
+				stack<spellVariable*> tmpStack;
+				char typ = paramStack.top()->type;
+				int pC = 0;
+
+				while (pC < numCount)
+				{
+					if (paramStack.top()->type == typ)
+					{
+						tmpStack.push(paramStack.top());
+						paramStack.pop();
+					}
+					else
+					{
+						//throw error
+						delete ans;
+						ovrFlag = true;
+						break;
+					}
+					pC++;
+				}
+
+				ans->type = typ;
+
+				paramStack.push(ans);
+
+				while (tmpStack.size())
+				{
+					if (typ == 'n')
+					{
+						int j, tl = tmpStack.top()->number.size();
+						for (j = 0; j < tl; j++)
+						{
+							paramStack.top()->number.push_back(tmpStack.top()->number[j]);
+						}
+					}
+
+					if (typ == 'd')
+					{
+						int j, tl = tmpStack.top()->dyna.size();
+						for (j = 0; j < tl; j++)
+						{
+							paramStack.top()->dyna.push_back(tmpStack.top()->dyna[j]);
+						}
+					}
+
+					tmpStack.pop();
+				}
+
+				operationStack.pop();
+			}
+			break;
+
+			case '(':
+				if (op.type == ')')
+				{
+					operationStack.pop();
+					return false;
+				}
+				else
+				{
+					ovrFlag = true;
+					break;
+				}
+			break;
+		}
+	}
 	return true;
 }
 
@@ -592,3 +723,44 @@ int spellAnalyser::readANum(string spellStr, int startPos, double& outputValue)
 	outputValue = ans;
 	return i - 1;
 }
+
+int spellAnalyser::readConst(string spellStr, int startPos, spellVariable *& outputValue)
+{
+	int i = 0, len = spellStr.length();
+	string ansStr = "";
+	spellVariable* ansVar = new spellVariable();
+
+	for (i = startPos; i < len; i++)
+	{
+		if ((spellStr[i] >= 'a' && spellStr[i] <= 'z') || (spellStr[i] >= 'A' && spellStr[i] <= 'Z') || (spellStr[i] == '_') || (spellStr[i] >= '0' && spellStr[i] <= '9'))
+		{
+			ansStr = ansStr + spellStr[i];
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	//================Consts here================
+
+	if (ansStr == "FP")		//Face Pos
+	{
+		ansVar->type = 'n';
+		ansVar->temp = true;
+
+		//For testing, face pos always equals to vec3(0,0,0)
+		ansVar->number.push_back(0);
+		ansVar->number.push_back(0);
+		ansVar->number.push_back(0);
+	}
+
+	//================Consts  end================
+
+	outputValue = ansVar;
+	return i - 1;
+}
+
+/*
+魔晶石的触发和供能可能相互独立。供能需要向其施加各属性的属性力（但不能超出上限，同时每种魔晶石各自的承受能力是不同的，比如火魔晶石可能需要滴水不沾），触发需要一个上升沿的纯粹脉冲（待定）
+*/
